@@ -1,0 +1,35 @@
+{%extends 'blog/base.html'%} 
+{%block content%}
+<div class="jumbotron">
+  <h2>Hello, everyone!</h2>
+  <p> Welcome to Xavier's Blog! This is where I share some of my thoughts. Feel free to make a post or comment and like any posts that you enjoy.</p>
+  <hr class="my-4">
+  <h3>New Post</h3>
+  <p>Click below to make a new post</p>
+  <p>
+    <form action="{% url 'blog:new_post'%}">
+      <input type="submit" class="btn btn-primary" value="Make a new Post" />
+    </form>
+  </p>
+  <hr class="my-4">
+  <h3>Posts</h3>
+  {%if latest_posts%}
+    <ul class="list-group list-group-flush">
+      <div class="list-group"></div>
+      {%for post in latest_posts%}
+        <a href="{% url 'blog:detail' post.id %}" class="list-group-item list-group-item-action flex-column align-items-start">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{post.title}}</h5>
+          </div>
+          <p class="mb-1">{{post.text}}</p>
+          <small class="text-muted">{{post.pub_date}}</small>
+        </a>
+      {%endfor%}
+    </div>
+  {%else%}
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">No Recent Posts</li>
+    </ul>
+  {%endif%} 
+</div>
+{%endblock%}

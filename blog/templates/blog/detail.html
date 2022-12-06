@@ -1,0 +1,49 @@
+{%extends 'blog/base.html'%} 
+{%block header%}
+  {{post.title}}
+{%endblock%}
+{%block content%}
+<h4>Date Published:</h4> 
+{{ post.pub_date }} <br><br>
+<h4>Post Details:</h4>
+{{post.text}} <br> <br>
+<form action="{% url 'blog:delete_post' post.id%}">
+  <input type="submit" class="btn btn-danger" value="Delete Post" />
+</form> <br> <br>
+
+<h4>Add a Comment:</h4>
+<form method="post" action="#">
+  {%csrf_token%}
+  <div class="form-group">
+    <label for="username_input">Username</label>
+    <input type="text" class="form-control" id="username_input" name="username" placeholder="@username">
+  </div>
+  <div class="form-group">
+    <label for="comment_textarea">Your Comment</label>
+    <textarea class="form-control" id="comment_textarea" name="comment" rows="3" placeholder="Add your comment here"></textarea>
+  </div>
+  <div class="form-group">
+    <button type="submit" name="save_comment" class="btn btn-success" value="save_comment" id="save_comment_btn">Save Comment</button>
+  </div>
+</form><br><br>
+
+<h4>Comments:</h4>
+{%if comments%}
+    <ul class="list-group list-group-flush">
+      <div class="list-group"></div>
+      {%for comment in comments%}
+        <a href="{% url 'blog:comment' comment.id %}" class="list-group-item list-group-item-action flex-column align-items-start">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{comment.username}}</h5>
+          </div>
+          <p class="mb-1">{{comment.comment}}</p>
+          <small class="text-muted">{{comment.comment_date}}</small>
+        </a>
+      {%endfor%}
+    </div>
+  {%else%}
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">No Comments</li>
+    </ul>
+  {%endif%} 
+{%endblock%}
